@@ -10,13 +10,13 @@ from sqlalchemy import true
 
 
 #Connecta como subscriber 
-broker = 'mqtt.gholias.com'
+broker = 'mqtt.empresa.com'
 port = 1883
-topic = "meccatus"
+topic = "topico"
 # gera um client ID com prefixo pub aleatoriamente
 client_id = f'python-mqtt-{random.randint(0, 100)}'
-username = '105332'
-password = 'X4VpusLy'
+username = 'nome'
+password = 'senha'
 
 
 def connect_mqtt() -> mqtt_client:
@@ -37,7 +37,7 @@ def connect_mqtt() -> mqtt_client:
 def subscribe(client: mqtt_client):
     def on_message(client, userdata, msg):
         mensagem = json.loads(msg.payload)           #pega o payload e tranforma em JSON no console
-        if (mensagem[0]["bn"]=="F803320800028DC8"):  #filtra o ID do device desejado
+        if (mensagem[0]["bn"]=="dispositivo"):  #filtra o ID do device desejado
             print (mensagem)    
         
     
