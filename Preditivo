@@ -1,0 +1,44 @@
+#JupyterLab ou GoogleCoolab
+
+!pip install pycaret-ts-alpha
+
+import pandas as pd
+
+dt = pd.read_csv('CSV de dados')
+
+dt
+
+dt['DATE'] = pd.to_datetime(dt['DATE'])
+
+dt.info()
+
+dt.set_index('DATE', drop=True, inplace=True)
+
+dt
+
+from pycaret.time_series import *
+
+setup(dt, fh=6, fold=10, seasonal_period='M')
+
+#encontra o melhor modelo pros dados especificados
+best_model = compare_models(exclude='auto_arima')
+
+#Cria o modelo a ser usado
+exp_smooth = create_model('exp_smooth')
+
+#Decompoe o grafico
+plot_model(exp_smooth, plot='decomp_stl' )
+
+#cria um modelo de teste preditivo
+plot_model(exp_smooth, plot='train_test_split')
+
+#finaliza o modelo
+final = finalize_model(exp_smooth)
+
+final
+
+# PRINTA A PREVISÃO DOS PROXIMOS 6 MESES
+plot_model(final, plot='forecast')
+
+# PRINTA A PREVISÃO DOS PROXIMOS 12 MESES
+plot_model(final, plot='forecast', data_kwargs={'fh' : 12})
